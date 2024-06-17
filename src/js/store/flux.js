@@ -103,7 +103,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			});
 		},
 		deleteAgenda: () => {
-			fetch("https://playground.4geeks.com/contact/agendas/agendaNelson", {
+			fetch( 'https://playground.4geeks.com/contact/agendas/agendaNelson?tags=Agenda%20operations&summary=Delete%20Agenda.&description=Deletes%20a%20specific%20agenda%20from%20the%20database.', {
 			  method: "DELETE",
 			  headers: {
 				accept: "application/json",

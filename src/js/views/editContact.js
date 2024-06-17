@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 import "../../styles/demo.css";
 
 
-export const Demo = () => {
+export const EditContact = () => {
   const { store, actions } = useContext(Context);
+  const { contactId } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -13,20 +15,30 @@ export const Demo = () => {
     phone: "",
     address: "",
   });
+
+  useEffect(() => {
+    const contact = store.listContacts.contacts.find(
+      (c) => c.id === parseInt(contactId)
+    );
+    if (contact) {
+      setFormData(contact);
+    }
+  }, [contactId, store.listContacts.contacts]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    actions.createContact(formData);
+    actions.editContact(contactId, formData);
     navigate("/");
   };
 
   return (
     <div className="container">
       <div className="text-center mt-3">
-        <h1>Add a new contact</h1>
+        <h1>Edit Contact</h1>
       </div>
       <form className="mt-5" onSubmit={handleSubmit}>
         <div className="mb-3">
@@ -87,7 +99,7 @@ export const Demo = () => {
         </div>
         <div className="d-grid gap-2">
           <button className="btn btn-primary" type="submit">
-            save
+            Save
           </button>
         </div>
       </form>
